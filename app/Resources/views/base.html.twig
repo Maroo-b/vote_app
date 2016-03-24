@@ -2,12 +2,68 @@
 <html>
     <head>
         <meta charset="UTF-8" />
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
+        <title>{% block title %}Vote App{% endblock %}</title>
+        {% block stylesheets %}
+         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"> 
+          {% stylesheets 
+            'css/style.css'
+            filter='cssrewrite' %}
+              <link rel="stylesheet" href="{{ asset_url }}" />
+          {% endstylesheets %}
+        {% endblock %}
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <!--webfont-->
+
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900' rel='stylesheet' type='text/css'>
+
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+
+        <link href='http://fonts.googleapis.com/css?family=Lato:100,200,300,400,600,700,900' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
     </head>
     <body>
+
+      <!----start-header---->
+		<div class="header">
+			<div class="container">
+				<div class="logo">
+				  <h2>Vote Me</h2>
+				</div>
+		  		<div class="menu">
+					<a class="toggleMenu" href="#"><img src="{{ asset('img/nav_icon.png') }}" alt="" /> </a>
+					<ul class="nav" id="nav">
+					  <li class="current"><a href="index.html">Home</a></li>
+					  <li><a href="about.html">About</a></li>
+					  <li><a href="services.html">Services</a></li>
+					  <li><a href="project.html">Login</a></li>
+					  <li><a href="blog.html">Sign up</a></li>
+					  <div class="clear"></div>
+					</ul>
+				</div>							
+	  			<div class="clearfix"> </div>
+			    <!----//End-top-nav---->
+			 </div>
+		</div>
+		<!----//End-header---->
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
+
+<div class="footer">
+		    <div class="footer_bottom">
+		    	<div class="copy">
+		          <p>&copy; 2014 Template by <a href="http://w3layouts.com" target="_blank">  w3layouts</a></p>
+		       </div>
+		    </div>
+		</div>
+        {% block javascripts %}
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+          {% javascripts 
+            'js/responsive-nav.js' 
+            'js/jquery.flexisel.js'
+            %}
+              <script src="{{ asset_url  }}"></script>
+              {% endjavascripts %}
+        {% endblock %}
     </body>
 </html>
