@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+{% block body %}
+{{form_start(form, {'attr': {'class': 'form-horizontal','novalidate': 'novalidate'}})}}
+  {% if form.title.vars.errors|length %}
+    <div class="form-group has-error">
+  {% else %}
+    <div class="form-group">
+  {% endif %}
+  {{form_label(form.title, "Title", {'label_attr': {'class' : 'col-sm-3 control-label'}})}}
+  {{form_errors(form.title)}}
+  <div class="col-sm-5">
+    {{form_widget(form.title, {'attr': {'class': 'form-control'}})}}
+  </div><!-- end col-sm-5 -->
+</div><!-- end form-group -->
+
+  {% if form.description.vars.errors|length %}
+    <div class="form-group has-error">
+  {% else %}
+    <div class="form-group">
+  {% endif %}
+  {{form_label(form.description,"Description", {'label_attr' : {'class' : 'col-sm-3 control-label'}})}}
+  {{form_errors(form.description)}}
+  <div class="col-sm-5">
+    {{form_widget(form.description, {'attr':{'class' : 'form-control'}})}}
+  </div><!-- end col-sm-5-->
+</div><!-- end form-group -->
+
+<ul class="choices" id="choose-me" data-prototype="{{ form_widget(form.choices.vars.prototype)|e  }}">
+    </ul>
+<div class ="form-group">
+  <div class="col-sm-offset-3 col-sm-5">
+    <input type="submit" value="Create" class="btn btn-primary" />
+  </div>
+</div><!-- end form-group-->
+{{form_end(form)}}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+
+var $collectionHolder;
+
+// setup an "add a tag" link
+var $addTagLink = $('<a href="#" class="add_tag_link">Add a tag</a>');
+var $newLinkLi = $('<li></li>').append($addTagLink);
+
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('ul#choose-me');
+
+    // add the "add a tag" anchor and li to the tags ul
+    $collectionHolder.append($newLinkLi);
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+    $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+    $addTagLink.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // add a new tag form (see next code block)
+        addTagForm($collectionHolder, $newLinkLi);
+    });
+
+function addTagForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+}
+});
+</script>
+{% endblock %}

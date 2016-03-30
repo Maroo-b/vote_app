@@ -1,0 +1,105 @@
+{% extends 'base.html.twig' %}
+{% form_theme form 'form/errors.html.twig' %}
+{% block body %}
+{{form_start(form, {'attr': {'class': 'form-horizontal','novalidate': 'novalidate'}})}}
+  {% if form.title.vars.errors|length %}
+    <div class="form-group has-error">
+  {% else %}
+    <div class="form-group">
+  {% endif %}
+  {{form_label(form.title, "Title", {'label_attr': {'class' : 'col-sm-3 control-label'}})}}
+  {{form_errors(form.title)}}
+  <div class="col-sm-5">
+    {{form_widget(form.title, {'attr': {'class': 'form-control'}})}}
+  </div><!-- end col-sm-5 -->
+</div><!-- end form-group -->
+
+  {% if form.description.vars.errors|length %}
+    <div class="form-group has-error">
+  {% else %}
+    <div class="form-group">
+  {% endif %}
+  {{form_label(form.description,"Description", {'label_attr' : {'class' : 'col-sm-3 control-label'}})}}
+  {{form_errors(form.description)}}
+  <div class="col-sm-5">
+    {{form_widget(form.description, {'attr':{'class' : 'form-control'}})}}
+  </div><!-- end col-sm-5-->
+</div><!-- end form-group -->
+<div id="container-choice">
+  <div class="form-group">
+  <label class="col-sm-3 control-label">Choices</label>
+  <div class="col-sm-5">
+    <a link="#" class="btn btn-primary" id="add-choice">Add choice</a>
+  </div>
+</div>
+  {% for choice in form.choices %}
+  <div id="prototype-choice" class="prtotype-choice">
+    <div class="form-group">
+    {{form_label(choice.value,"Value", {'label_attr' : {'class' : 'col-sm-3 control-label'}})}}
+    <div class="col-sm-5">
+      {{form_widget(choice.value, {'attr':{'class' : 'form-control'}})}}
+    </div><!-- end col-sm-5-->
+    </div>
+  </div><!-- end prototype_choice -->
+  {% endfor %}
+</div><!-- end container-tome -->
+ {{ form_widget(form._token)  }}
+<div class ="form-group">
+  <div class="col-sm-offset-3 col-sm-5">
+    <input type="submit" value="Create" class="btn btn-primary" />
+  </div>
+</div><!-- end form-group-->
+
+{{form_end(form)}}
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+
+$(document).ready(function() {
+var $collectionHolder;
+
+// setup an "add a tag" link
+    // Get the ul that holds the collection of tags
+    $collectionHolder = $('div#container-choice');
+
+
+    // count the current form inputs we have (e.g. 2), use that as the new
+    // index when inserting a new item (e.g. 2)
+
+    $('#prototype-choice').html().replace(/__name__/g,0);
+    $collectionHolder.data('index', 1);
+    $('#add-choice').on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+        e.stopPropagation();
+        var $prototypeChoice = $('#prototype-choice').clone();
+
+        var index = $collectionHolder.data('index');
+        $prototypeChoice = $($prototypeChoice.html().replace(/0/g,index));
+
+        $collectionHolder.data('index', index + 1);
+        $deleteLink = $('<a href="#" class="btn btn-danger">Delete</a>');
+        $prototypeChoice.find(':input').parent().after($deleteLink);
+        $deleteLink.on('click', function(e){
+          e.preventDefault();
+          e.stopPropagation();
+          $prototypeChoice.remove();
+          });
+        $collectionHolder.append($prototypeChoice);
+        
+    });
+
+    // if ($collectionHolder.data('index') == 0) {
+    //   addTagForm($collectionHolder, $newLinkLi);
+    //   addCategory($container);
+    // } else {
+    //   $collectionHolder.children('div').each(function() {
+    //       addDeleteLink($(this));
+    //       });
+    // }
+
+
+});
+</script>
+{% endblock %}

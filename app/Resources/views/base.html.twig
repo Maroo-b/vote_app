@@ -36,8 +36,12 @@
 					  <li class="current"><a href="index.html">Home</a></li>
 					  <li><a href="about.html">About</a></li>
 					  <li><a href="services.html">Services</a></li>
-					  <li><a href="project.html">Login</a></li>
-					  <li><a href="blog.html">Sign up</a></li>
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li><a href="{{path('fos_user_security_logout')}}">Logout</a></li>
+            {% else %}
+              <li><a href="{{path('fos_user_security_login')}}">Login</a></li>
+              <li><a href="{{path('fos_user_registration_register')}}">Sign up</a></li>
+            {% endif %}
 					  <div class="clear"></div>
 					</ul>
 				</div>							

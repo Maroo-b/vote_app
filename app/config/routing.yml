@@ -5,6 +5,19 @@ user:
 fos_user:
       resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
+question_add_path:
+    path: /poll/new
+    defaults: {_controller: AppBundle:Question:add}
+
+question_notice_path:
+    path: /poll/notice
+    defaults: {_controller: AppBundle:Question:notice}
+
+question_show_path:
+    path: /poll/{id}
+    defaults: {_controller: AppBundle:Question:Show}
+    requirements:
+        id: \d+
 root_path:
     path: /
     defaults: {_controller: AppBundle:Static:index}
