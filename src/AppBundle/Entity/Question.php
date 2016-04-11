@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 use AppBundle\Entity\Choice;
+use UserBundle\Entity\User;
 
 /**
  * Question
@@ -42,6 +43,11 @@ class Question
      * @ORM\OneToMany(targetEntity="Choice", mappedBy="question", cascade={"persist"})
      */
     private $choices;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="UserBundle\Entity\User", inversedBy="questions")
+     */
+    private $user;
 
     public function __construct()
     {
@@ -135,5 +141,28 @@ class Question
     public function getChoices()
     {
         return $this->choices;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \UserBundle\Entity\User $user
+     * @return Question
+     */
+    public function setUser(\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User 
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

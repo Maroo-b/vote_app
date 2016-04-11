@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for question in questions %}
+  <tr>
+    <td><h4>{{question.title}}</h4></td>
+    <td>{{question.description }}</td>
+  </tr>
+  {% else %}
+    <h4> No polls found </h4>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+
+{% endblock %}
